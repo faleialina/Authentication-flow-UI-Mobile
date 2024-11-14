@@ -92,8 +92,13 @@ export default function singup() {
 						Policy
 					</Text>
 				</View>
-				<TouchableOpacity style={styles.btnLogin}>
-					<Text style={styles.buttonText}>Signup</Text>
+				<TouchableOpacity
+					style={[styles.btnLogin, !flag && styles.btnLoginDisabled]}
+					disabled={!flag}
+				>
+					<Text style={[styles.buttonText, !flag && styles.buttonTextDisabled]}>
+						Signup
+					</Text>
 				</TouchableOpacity>
 			</View>
 
@@ -216,4 +221,10 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: '#FEFEFE',
 	},
+	btnLoginDisabled: {
+		backgroundColor: '#B0B0B0',
+},
+buttonTextDisabled: {
+		color: '#515151',
+},
 })
