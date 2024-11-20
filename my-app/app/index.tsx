@@ -12,6 +12,16 @@ import Shape from '../assets/images/Shape'
 
 export default function LogIn() {
 	const [flag, setFlag] = useState(false)
+	const [valueInp, setvalueInp] = useState({
+		email: '',
+		pwd: '',
+	})
+	const resp = (value: any, name: string) => {
+		setvalueInp({ ...valueInp, [name]: value })
+	}
+	const checkInps = () => {
+		console.log(valueInp)
+	}
 
 	return (
 		<>
@@ -37,6 +47,7 @@ export default function LogIn() {
 						placeholder='Rhebhek@gmail.com'
 						placeholderTextColor={'#BABABA'}
 						style={styles.inp}
+						onChangeText={value => resp(value, 'email')}
 					></TextInput>
 					<View
 						style={{ flexDirection: 'row', justifyContent: 'space-between' }}
@@ -49,6 +60,7 @@ export default function LogIn() {
 						secureTextEntry={true}
 						placeholderTextColor={'#BABABA'}
 						style={styles.inp}
+						onChangeText={value => resp(value, 'pwd')}
 					></TextInput>
 
 					<View style={styles.containerCheckbox}>
@@ -65,7 +77,7 @@ export default function LogIn() {
 						<Text style={styles.text_signed}>Keep me signed in</Text>
 					</View>
 
-					<TouchableOpacity style={styles.btnLogin}>
+					<TouchableOpacity style={styles.btnLogin} onPress={checkInps}>
 						<Text style={{ color: '#FEFEFE' }}>Login</Text>
 					</TouchableOpacity>
 				</View>

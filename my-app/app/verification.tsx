@@ -1,4 +1,5 @@
 import { Link } from 'expo-router'
+import { useRef, useState } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -8,6 +9,20 @@ import {
 } from 'react-native'
 
 export default function verification() {
+	const [inpVal, setInpVal] = useState(['', '', '', '', '', ''])
+	const inputs = useRef<(TextInput | null)[]>([])
+
+	const changeText = (text: any, index: any) => {
+		let newInpVal = [...inpVal]
+		newInpVal[index] = text
+		setInpVal(newInpVal)
+		if (text && index < 5) inputs.current[index + 1]?.focus()
+	}
+
+	const pressKey = (e: any, index: any) => {
+		if (e.nativeEvent.key === 'Backspace' && index > 0 && !inpVal[index])
+			inputs.current[index - 1]?.focus()
+	}
 	return (
 		<View style={styles.wrapper}>
 			<Text style={styles.textTitle}>Please verify your email address</Text>
@@ -27,36 +42,20 @@ export default function verification() {
 								gap: 16,
 							}}
 						>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
-							<TextInput
-								placeholder='-'
-								placeholderTextColor={'#BABABA'}
-								style={styles.inp}
-							></TextInput>
+							{inpVal.map((item, index) => (
+								<TextInput
+									key={index}
+									ref={ref => (inputs.current[index] = ref)}
+									style={styles.inp}
+									placeholder='-'
+									placeholderTextColor={'#BABABA'}
+									maxLength={1}
+									value={item}
+									onChangeText={text => changeText(text, index)}
+									onKeyPress={e => pressKey(e, index)}
+									keyboardType='numeric'
+								/>
+							))}
 						</View>
 					</View>
 				</View>

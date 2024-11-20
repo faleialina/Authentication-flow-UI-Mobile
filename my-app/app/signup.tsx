@@ -12,7 +12,22 @@ import Shape from '../assets/images/Shape'
 
 export default function singup() {
 	const [flag, setFlag] = useState(true)
-
+	const [valueInp, setvalueInp] = useState({
+		email: '',
+		pwd: '',
+	})
+	const resp = (value: any, name: string) => {
+		setvalueInp({ ...valueInp, [name]: value })
+	}
+	const checkInps = () => {
+		try {
+			if (!/^\w+@[a-z]+\.[a-z]{2,5}/gm.test(valueInp.email))
+				throw new Error('this email invalid')
+			console.log(valueInp)
+		} catch (error: any) {
+			console.log(error.message)
+		}
+	}
 	return (
 		<View style={styles.wrapper}>
 			<Text style={styles.textLogin}>Singup</Text>
@@ -36,6 +51,7 @@ export default function singup() {
 							placeholder='Becca Ade'
 							placeholderTextColor={'#BABABA'}
 							style={styles.inp}
+							onChangeText={value => resp(value, 'first')}
 						></TextInput>
 					</View>
 
@@ -45,6 +61,7 @@ export default function singup() {
 							placeholder='Email'
 							placeholderTextColor={'#BABABA'}
 							style={styles.inp}
+							onChangeText={value => resp(value, 'email')}
 						></TextInput>
 					</View>
 					<View style={styles.inpAndTitle}>
@@ -58,6 +75,7 @@ export default function singup() {
 							secureTextEntry={true}
 							placeholderTextColor={'#BABABA'}
 							style={styles.inp}
+							onChangeText={value => resp(value, 'pwd')}
 						></TextInput>
 					</View>
 					<View style={styles.inpAndTitle}>
@@ -71,6 +89,7 @@ export default function singup() {
 							secureTextEntry={true}
 							placeholderTextColor={'#BABABA'}
 							style={styles.inp}
+							onChangeText={value => resp(value, 'confirmPwd')}
 						></TextInput>
 					</View>
 				</View>
@@ -95,6 +114,7 @@ export default function singup() {
 				<TouchableOpacity
 					style={[styles.btnLogin, !flag && styles.btnLoginDisabled]}
 					disabled={!flag}
+					onPress={checkInps}
 				>
 					<Text style={[styles.buttonText, !flag && styles.buttonTextDisabled]}>
 						Signup
@@ -223,8 +243,8 @@ const styles = StyleSheet.create({
 	},
 	btnLoginDisabled: {
 		backgroundColor: '#B0B0B0',
-},
-buttonTextDisabled: {
+	},
+	buttonTextDisabled: {
 		color: '#515151',
-},
+	},
 })
